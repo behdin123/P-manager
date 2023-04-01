@@ -22,28 +22,28 @@ class ProjectController {
 
   async createProject(req, res, next) {
     try {
-      // ... (existing code)
+      console.log(req.body)
+      const {title, text, image, tags } = req.body;
+      console.log(tags);
 
-      const result = await ProjectModel.create({
-        title,
-        text,
-        owner,
-        image,
-        tags,
-      });
-      if (!result)
-        throw {
-          status: 400,
-          message: "Adding the project encountered a problem",
-        };
+      const owner = req.user._id
+      const result = await ProjectModel.create({title, text, owner, image, tags,});
+
+      if (!result)throw {
+        status: 400, 
+        message: "Adding the project encountered a problem",
+      };
 
       // Create default columns for the project
       await this.createDefaultColumns(result._id);
 
-      // ... (existing code)
-    } catch (error) {
-      next(error);
-    }
+      return res.status(201).json({
+        status : 201, 
+        success: true, 
+        message : 'The project was successfully created'
+      })
+    } 
+    catch (error) {next(error);}
   }
 
   async getAllProject(req, res, next) {

@@ -1,5 +1,10 @@
+/**
+ * This file exports a Mongoose Model for a Project document.
+ */
+
 const mongoose = require("mongoose");
 
+// Define a new Mongoose schema for ProjectSchema
 const ProjectSchema = new mongoose.Schema({
     title : {type : String, required : true},
     text : {type : String},
@@ -12,6 +17,7 @@ const ProjectSchema = new mongoose.Schema({
     timestamps : true
 });
 
+// Create a Mongoose Model for the Project document with the defined schema
 const ProjectModel = mongoose.model("project", ProjectSchema);
 
 module.exports = {

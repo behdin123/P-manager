@@ -16,6 +16,7 @@ function expressValidatorMapper(req, res, next) {
   }
   next()
 }
+
 const  yupValidator = (schema) => async (req, res, next) => {
   try {
     await schema.validate({
@@ -29,6 +30,7 @@ const  yupValidator = (schema) => async (req, res, next) => {
     return res.status(500).json({ type: err.name, message: err.message });
   }
 };
+
 module.exports = {
   expressValidatorMapper,
   yupValidator

@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+
 const InviteRequest = new mongoose.Schema({
     teamID : {type : mongoose.Types.ObjectId, required : true},
     caller : {type : String, required : true, lowercase : true},
     requestDate : {type : Date, default : new Date()},
     status : {type : String, default : "pending"} // pending, accepted, rejected
 })
+
 const UserSchema = new mongoose.Schema({
     first_name : {type : String},
     last_name : {type : String},
@@ -21,7 +23,9 @@ const UserSchema = new mongoose.Schema({
 }, {
     timestamps : true
 });
+
 const UserModel = mongoose.model("user", UserSchema);
+
 module.exports = {
     UserModel
 }

@@ -11,7 +11,9 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + type)
     }
 });
+
 const upload_multer = multer({storage})
+
 module.exports = {
     upload_multer
 }

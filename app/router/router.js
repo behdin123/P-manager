@@ -12,14 +12,18 @@ const { authRoutes } = require("./auth");
 
 const { projectRoutes } = require("./project")
 
+const { taskRoutes } = require("./task");
+
 const { teamRoutes } = require("./team");
 
 const { userRoutes } = require("./user");
 
-// Routes for authentication, project, team, user
+// Routes for authentication, project, tasks, team, user
 router.use("/auth", authRoutes)
 
 router.use("/project", projectRoutes)
+
+router.use("/tasks", taskRoutes);
 
 router.use("/team", teamRoutes)
 

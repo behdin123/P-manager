@@ -7,9 +7,9 @@ const mongoose = require("mongoose");
 // Define a new Mongoose schema for ProjectSchema
 const ProjectSchema = new mongoose.Schema({
     title : {type : String, required : true},
-    text : {type : String},
+    description : {type : String},
     image : {type : String, default : "/defaults/default.png"},
-    owner : {type : mongoose.Types.ObjectId, required : true},
+    owner : {type : mongoose.Types.ObjectId},
     team : {type : mongoose.Types.ObjectId},
     Private : {type : Boolean, default : true},
     tags : {type : [String], default : []}

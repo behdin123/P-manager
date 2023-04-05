@@ -2,6 +2,9 @@
  * This is the main file that exports an Application class which handles the configuration and creation of the Express application.
  * The class defines methods that is creating the server, configuring the database, creating the routes, and handling errors.
  */
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const { AllRoutes } = require("./router/router");
 module.exports = class Application {
@@ -25,6 +28,7 @@ module.exports = class Application {
         this.#app.use(this.#express.static(path.join(__dirname, "..", "public")))
         this.#app.use(this.#express.json());
         this.#app.use(this.#express.urlencoded({extended : true}));
+        this.#app.use(cookieParser());
     }
 
     // Method for creating the server
@@ -75,8 +79,16 @@ module.exports = class Application {
         })
     }
 
+
+    
     // Method for creating the routes
     createRoutes(){
+        
+        const swaggerUi = require('swagger-ui-express');
+        const swaggerSpecs = require('./swagger');
+
+        // Serve swagger.yaml as a static file
+        this.#app.use('/swagger.yaml', express.static(path.join(__dirname, 'swagger.yaml')));
 
         // Define a route for the root URL
         this.#app.get("/", (req, res, next) => {
@@ -84,6 +96,8 @@ module.exports = class Application {
                 message : "this is a new Express application"
             })
         })
+
+        this.#app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, { swaggerOptions: { url: '/swagger.yaml' } }));
 
         // Use the imported AllRoutes object containing all defined routes
         this.#app.use(AllRoutes)

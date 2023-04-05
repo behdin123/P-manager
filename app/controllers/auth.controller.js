@@ -70,16 +70,25 @@ class AuthController{
 
             // Generate a token for the user
             const token = tokenGenerator({username});
+            console.log("Generated JWT token:", token);
 
             // Save the token to the user's record in the database
             user.token = token;
             await user.save()
 
+            // Set the JWT token as a cookie
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: true,
+                maxAge: 24 * 60 * 60 * 1000 // 24 hours
+            });
+
             // Send a response with the token to the user
             return res.status(200).json({
-                status : 200,
-                success : true,
-                message : "You have successfully logged in to your account.",
+                status: 200,
+                success: true,
+                message: "You have successfully logged in to your account.",
                 token
             })
 

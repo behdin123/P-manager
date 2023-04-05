@@ -23,7 +23,7 @@ router.use("/auth", authRoutes)
 
 router.use("/project", projectRoutes)
 
-router.use("/tasks", taskRoutes);
+router.use("/project/:projectId/tasks", taskRoutes);
 
 router.use("/team", teamRoutes)
 

@@ -22,12 +22,6 @@ const checkLogin = async (req, res, next) => {
     // Throw error if Authorization header is missing
     if (!authorization) throw authError;
 
-    // Get token from the Authorization header
-    let token = authorization.split(" ")?.[1];
-
-    // Throw error if token is missing
-    if (!token) throw authError;
-
     // Verify token and get user data from the token payload
     const result = verifyJwtToken(token);
     const { username } = result;

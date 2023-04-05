@@ -26,11 +26,15 @@ class ProjectController {
 
     // Loop through default columns using Array.entries() method to get the index and value
     for (const [index, title] of defaultColumns.entries()) {
-      await ColumnModel.create({
+      const newColumn = new ColumnModel({
         title: title,
         project: projectId,
         order: index,
       });
+
+    // Save the new column to the database and get its ID
+    await newColumn.save();
+
     }
   }
 
@@ -43,15 +47,16 @@ class ProjectController {
   */
 
   async createProject(req, res, next) {
+    console.log('createProject called'); 
     try {
       console.log(req.body)
-      const {title, text, image, tags } = req.body;
+      const {title, description, image, tags } = req.body;
       console.log(tags);
 
       const owner = req.user._id
 
       // create new project
-      const result = await ProjectModel.create({title, text, owner, image, tags,});
+      const result = await ProjectModel.create({title, description, owner, image, tags,});
 
       // check if the project was created successfully
       if (!result)throw {
@@ -174,6 +179,11 @@ class ProjectController {
       // Check if the project belongs to the user
       await this.findProject(projectID, owner);
 
+      // Delete the columns associated with the project
+      const deleteColumnsResult = await ColumnModel.deleteMany({
+        project: projectID,
+      });
+
       // Delete the project from the database
       const deleteProjectResult = await ProjectModel.deleteOne({
         _id: projectID,
@@ -187,7 +197,7 @@ class ProjectController {
       return res.status(200).json({
         status: 200,
         success: true,
-        message: "The project was successfully deleted",
+        message: "The project and associated columns were successfully deleted",
       });
 
     } catch (error) {
@@ -216,7 +226,7 @@ class ProjectController {
 
       // Remove unwanted fields from data
       Object.entries(data).forEach(([key, value]) => {
-        if (!["title", "text", "tags"].includes(key)) delete data[key];
+        if (!["title", "description", "tags"].includes(key)) delete data[key];
         if (["", " ", 0, null, undefined, NaN].includes(value))
           delete data[key];
         if (key == "tags" && data["tags"].constructor === Array) {

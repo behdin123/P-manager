@@ -3,14 +3,14 @@
  * Each route uses the TaskController to handle the operation.
  *
  * Middleware:
- * - checkLogin: Ensures the user is logged in before accessing protected routes
+ * - verifyToken: Ensures the user is logged in before accessing protected routes
  * - mongoIDValidator: Validates MongoDB ObjectIds in the route parameters
  * - expressValidatorMapper: Handles validation errors
  */
 
 const { TaskController } = require("../controllers/task.controller");
 
-const { checkLogin } = require("../middlewares/autoLogin");
+const { verifyToken } = require('../modules/functions.js');
 
 const { mongoIDValidator } = require("../validations/public");
 
@@ -19,19 +19,19 @@ const { expressValidatorMapper } = require("../middlewares/checkErrors");
 const router = require("express").Router();
 
 // Create a new task
-router.post("/create", checkLogin, TaskController.createTask);
+router.post("/create", verifyToken, TaskController.createTask);
 
 // Get a task by its ID
-router.get("/:taskId", checkLogin, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.getTaskById);
+router.get("/:taskId", verifyToken, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.getTaskById);
 
 // Update a task
-router.put("/:taskId/update", checkLogin, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.updateTask);
+router.put("/:taskId/update", verifyToken, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.updateTask);
 
 // Delete a task
-router.delete("/:taskId/delete", checkLogin, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.deleteTask);
+router.delete("/:taskId/delete", verifyToken, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.deleteTask);
 
 // Update the column of a task (used when dragging and dropping a task between columns)
-router.put("/:taskId/update-column", checkLogin, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.updateTaskColumn);
+router.put("/:taskId/update-column", verifyToken, mongoIDValidator("taskId"), expressValidatorMapper, TaskController.updateTaskColumn);
 
 
 module.exports = {

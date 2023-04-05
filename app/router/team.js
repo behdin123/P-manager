@@ -7,8 +7,8 @@
 // Importing the TeamController object from the team.controller.js file.
 const { TeamController } = require("../controllers/team.controller");
 
-// checkLogin middleware function from the autoLogin.js file.
-const { checkLogin } = require("../middlewares/autoLogin");
+// const { verifyToken } 
+const { verifyToken } = require('../modules/functions.js');
 
 // expressValidatorMapper middleware function from the checkErrors.js file.
 const { expressValidatorMapper } = require("../middlewares/checkErrors");
@@ -24,25 +24,25 @@ const router = require("express").Router();
 
 
 // Create a new team
-router.post("/create", checkLogin,createTeamValidator(), expressValidatorMapper,  TeamController.createTeam)
+router.post("/create", verifyToken,createTeamValidator(), expressValidatorMapper,  TeamController.createTeam)
 
 // Get a list of all teams
-router.get("/list", checkLogin, TeamController.getListOfTeam)
+router.get("/list", verifyToken, TeamController.getListOfTeam)
 
 // Get the current user's teams
-router.get("/me", checkLogin, TeamController.getMyTeams)
+router.get("/me", verifyToken, TeamController.getMyTeams)
 
 // Invite a user to a team
-router.get("/invite/:teamID/:username", checkLogin, TeamController.inviteUserToTeam)
+router.get("/invite/:teamID/:username", verifyToken, TeamController.inviteUserToTeam)
 
 // Get a specific team by ID
-router.get("/:id", checkLogin,mongoIDValidator(), expressValidatorMapper, TeamController.getTeamById)
+router.get("/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, TeamController.getTeamById)
 
 // Remove a team by ID
-router.delete("/remove/:id", checkLogin,mongoIDValidator(), expressValidatorMapper, TeamController.removeTeamById)
+router.delete("/remove/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, TeamController.removeTeamById)
 
 // Update a team by ID
-router.put("/update/:teamID", checkLogin, TeamController.updateTeam)
+router.put("/update/:teamID", verifyToken, TeamController.updateTeam)
 
 module.exports = {
     teamRoutes : router

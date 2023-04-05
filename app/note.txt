@@ -1,0 +1,52 @@
+Using concurrently for keep updating the swagger file, "watching it"
+
+
+Vi gøre nu brug af verifyToken som henter tokenet fra cookien og ikke fra Authorization-headeren, i sit request.
+I denne tilfælde har vi valgt at gemme JWT-tokenet i en cookie, og ved at bruge verifyToken sikrer vi, at 
+applikationen konsekvent bruger cookien til at hente tokenet og ikke afhænger af en Authorization-header.
+
+JWT-tokenet bliver hentet fra cookien ved at bruge req.cookies.jwt. 
+
+
+Denne metode "coockie" er mere udsat for Cross-Site Request Forgery 'CSRF' angreb.
+Når JWT-tokenet gemmes i en cookie, kan det være mere udsat for CSRF-angreb, fordi cookies 
+automatisk sendes med hver anmodning til samme domæne. Hvis en angriber kan lokke brugeren 
+til at besøge en ondsindet side, kan angriberen potentielt udføre handlinger på brugerens vegne 
+ved at sende anmodninger med brugerens cookie.
+
+
+For at beskytte mod CSRF-angreb:
+- CSRF-tokens
+- same-site cookies
+
+Authorization headers til at sende JWT-tokens: (Man-in-the-middle (MITM) angreb)
+- vigtigt at bruge HTTPS (HTTP - SSL/TLS)
+- dataene mellem klienten og serveren skal være krypteret
+- hvis ikke / angriber potentielt opfange JWT-tokens sendt i headers og 
+              bruge dem til at få adgang til brugerens data eller udføre 
+              handlinger på deres vegne.
+
+
+
+We now use verifyToken, which retrieves the token from the cookie and not from the Authorization header in its request. 
+In this case, we have chosen to store the JWT token in a cookie, and by using verifyToken, we ensure that the 
+application consistently uses the cookie to retrieve the token and does not depend on an Authorization header.
+
+The JWT token is fetched from the cookie using req.cookies.jwt.
+
+This "cookie" method is more vulnerable to Cross-Site Request Forgery (CSRF) attacks. 
+When the JWT token is stored in a cookie, it is more susceptible to CSRF attacks because cookies are 
+automatically sent with every request to the same domain. If an attacker can lure the user into visiting a 
+malicious site, the attacker can potentially perform actions on the user's behalf by sending requests with the user's cookie.
+
+To protect against CSRF attacks:
+
+    CSRF tokens
+    Same-site cookies
+
+Using Authorization headers to send JWT tokens: (Man-in-the-middle (MITM) attacks)
+
+    Important to use HTTPS (HTTP over SSL/TLS)
+    Data between the client and server must be encrypted
+    If not, an attacker could potentially intercept JWT tokens sent in headers and 
+            use them to access the user's data or perform actions on their behalf.

@@ -8,8 +8,7 @@
 // For handling project-related requests
 const { ProjectController } = require("../controllers/project.controller");
 
-// For ensuring user authentication before accessing protected routes
-const { checkLogin } = require("../middlewares/autoLogin");
+const { verifyToken } = require('../modules/functions.js');
 
 // For handling validation errors
 const { expressValidatorMapper } = require("../middlewares/checkErrors");
@@ -34,22 +33,22 @@ const router = require("express").Router();
 
 
 // Create a new project
-router.post("/create",fileupload(), checkLogin, addStrToArr("tags"), uploadFile, createProjectValidator(),expressValidatorMapper, ProjectController.createProject)
+router.post("/create",fileupload(), verifyToken, addStrToArr("tags"), uploadFile, createProjectValidator(),expressValidatorMapper, ProjectController.createProject)
 
 // Get a list of all projects
-router.get("/list", checkLogin, ProjectController.getAllProject)
+router.get("/list", verifyToken, ProjectController.getAllProject)
 
 // Get a specific project by ID
-router.get("/:id", checkLogin, mongoIDValidator(), expressValidatorMapper, ProjectController.getProjectById)
+router.get("/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, ProjectController.getProjectById)
 
 // Remove a project by ID
-router.delete("/remove/:id", checkLogin,mongoIDValidator(), expressValidatorMapper, ProjectController.removeProject)
+router.delete("/remove/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, ProjectController.removeProject)
 
 // Update a project by ID
-router.put("/edit/:id", checkLogin, mongoIDValidator(), expressValidatorMapper,ProjectController.updateProject)
+router.put("/edit/:id", verifyToken, mongoIDValidator(), expressValidatorMapper,ProjectController.updateProject)
 
 // Update a project's image by ID
-router.patch("/edit-projectImage/:id", fileupload(), checkLogin,uploadFile, mongoIDValidator(), expressValidatorMapper,ProjectController.updateProjectImage)
+router.patch("/edit-projectImage/:id", fileupload(), verifyToken, uploadFile, mongoIDValidator(), expressValidatorMapper,ProjectController.updateProjectImage)
 
 // Export the router as a module
 module.exports = {

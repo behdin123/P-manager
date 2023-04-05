@@ -1,6 +1,6 @@
 Using concurrently for keep updating the swagger file, "watching it"
 
-
+Dansk:
 Vi gøre nu brug af verifyToken som henter tokenet fra cookien og ikke fra Authorization-headeren, i sit request.
 I denne tilfælde har vi valgt at gemme JWT-tokenet i en cookie, og ved at bruge verifyToken sikrer vi, at 
 applikationen konsekvent bruger cookien til at hente tokenet og ikke afhænger af en Authorization-header.
@@ -27,7 +27,7 @@ Authorization headers til at sende JWT-tokens: (Man-in-the-middle (MITM) angreb)
               handlinger på deres vegne.
 
 
-
+Engelsk:
 We now use verifyToken, which retrieves the token from the cookie and not from the Authorization header in its request. 
 In this case, we have chosen to store the JWT token in a cookie, and by using verifyToken, we ensure that the 
 application consistently uses the cookie to retrieve the token and does not depend on an Authorization header.
@@ -50,3 +50,41 @@ Using Authorization headers to send JWT tokens: (Man-in-the-middle (MITM) attack
     Data between the client and server must be encrypted
     If not, an attacker could potentially intercept JWT tokens sent in headers and 
             use them to access the user's data or perform actions on their behalf.
+
+
+
+Dansk:
+Ændring af ruter: I begyndelsen var vores router opsat på en flad struktur, hvor alle opgaveruter 
+var direkte under /tasks. Men i en virkelig verden, hvor opgaver er relateret til specifikke 
+projekter, er det mere logisk at organisere ruter i en hierarkisk struktur, 
+hvor opgaveruter er under projektruter. Dette gør det nemmere at forstå og vedligeholde 
+koden, og det hjælper med at organisere API-anmodninger på en mere logisk og struktureret måde.
+
+Hvorfor inkludere projectId i ruten: I projekt er opgaver relateret til projekter. 
+For at arbejde med opgaver inden for et specifikt projekt er det nyttigt at inkludere projectId i ruten. 
+Dette gør det muligt at få adgang til oplysninger om det relaterede projekt, når der udføres handlinger på opgaver. 
+Desuden kan det hjælpe med at øge sikkerheden ved at sikre, at brugere kun kan arbejde med opgaver, 
+der hører til projekter, de har adgang til.
+
+Tasks er relateret til projekter gennem kolonner: Tasks er en del af kolonner, og kolonner 
+er en del af projekter. Så der er en implicit relation mellem tasks og projects gennem kolonner. 
+Når der inkluderes projectId i taskruterne, tages der højde for denne relation og gør det 
+nemmere at arbejde med tasks i sammenhæng med det relaterede projekt.
+
+Engelsk:
+Changing routes: Initially, our router was set up with a flat structure, where all task routes 
+were directly under /tasks. However, in a real-world scenario where tasks are related to specific 
+projects, it is more logical to organize routes in a hierarchical structure, where task routes 
+are under project routes. This makes it easier to understand and maintain the code, and it helps 
+organize API requests in a more logical and structured way.
+
+Why include projectId in the route: In projects, tasks are related to projects. To work with 
+tasks within a specific project, it is helpful to include the projectId in the route. This allows 
+access to information about the related project when performing actions on tasks. Moreover, it 
+can help enhance security by ensuring that users can only work with tasks belonging to projects 
+they have access to.
+
+Tasks are related to projects through columns: Tasks are part of columns, and columns are 
+part of projects. Thus, there is an implicit relation between tasks and projects through columns. 
+By including projectId in the task routes, this relation is taken into account, making it 
+easier to work with tasks in the context of the related project.

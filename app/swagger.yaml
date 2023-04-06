@@ -46,6 +46,25 @@ components:
             type: string
         owner:
           type: string
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        profile_image:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
 
 paths:
 
@@ -649,6 +668,93 @@ paths:
                   message:
                     type: string
                     example: The update of team information was not successful
+
+
+  # user routes
+
+  /user/profile:
+    get:
+      tags:
+        - User
+      summary: Get user profile
+      responses:
+        200:
+          description: Successfully retrieved user profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  success:
+                    type: boolean
+                  user:
+                    $ref: '#/components/schemas/User'
+                    type: object
+                    properties:
+                      # Add user properties here
+    post:
+      tags:
+        - User
+      summary: Edit user profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                skills:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: Successfully updated user profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+  /user/profile-image:
+    post:
+      tags:
+        - User
+      summary: Upload user profile image
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: Successfully uploaded user profile image
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  success:
+                    type: boolean
+                  message:
+                    type: string
 
 
   

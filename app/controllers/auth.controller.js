@@ -69,7 +69,7 @@ class AuthController{
             if(!compareResult) throw {status : 401, message : "The username or password is incorrect"}
 
             // Generate a token for the user
-            const token = tokenGenerator(user); // Pass the entire user object here
+            const token = tokenGenerator(user); 
             console.log("Generated JWT token:", token);
 
             // Save the token to the user's record in the database

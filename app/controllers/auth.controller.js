@@ -57,7 +57,7 @@ class AuthController{
             const {username, password} = req.body;
 
             // Find the user by their username in the database
-            const user = await UserModel.findOne({username});
+            const user = await UserModel.findOne({username}).select('_id username password');
 
             // If no user is found, throw an error
             if(!user) throw {status : 401, message : "The username or password is incorrect"}
@@ -69,7 +69,7 @@ class AuthController{
             if(!compareResult) throw {status : 401, message : "The username or password is incorrect"}
 
             // Generate a token for the user
-            const token = tokenGenerator({username});
+            const token = tokenGenerator(user); // Pass the entire user object here
             console.log("Generated JWT token:", token);
 
             // Save the token to the user's record in the database

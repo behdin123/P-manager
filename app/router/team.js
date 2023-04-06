@@ -24,7 +24,7 @@ const router = require("express").Router();
 
 
 // Create a new team
-router.post("/create", verifyToken,createTeamValidator(), expressValidatorMapper,  TeamController.createTeam)
+router.post("/create", verifyToken, createTeamValidator(), expressValidatorMapper,  TeamController.createTeam)
 
 // Get a list of all teams
 router.get("/list", verifyToken, TeamController.getListOfTeam)
@@ -36,10 +36,10 @@ router.get("/me", verifyToken, TeamController.getMyTeams)
 router.get("/invite/:teamID/:username", verifyToken, TeamController.inviteUserToTeam)
 
 // Get a specific team by ID
-router.get("/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, TeamController.getTeamById)
+router.get("/:id", verifyToken, mongoIDValidator("id"), expressValidatorMapper, TeamController.getTeamById)
 
 // Remove a team by ID
-router.delete("/remove/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, TeamController.removeTeamById)
+router.delete("/remove/:id", verifyToken, mongoIDValidator("id"), expressValidatorMapper, TeamController.removeTeamById)
 
 // Update a team by ID
 router.put("/update/:teamID", verifyToken, TeamController.updateTeam)

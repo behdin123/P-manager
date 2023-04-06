@@ -47,6 +47,7 @@ class ProjectController {
   */
 
   async createProject(req, res, next) {
+    console.log("req.user:", req.user);
     console.log('createProject called'); 
     try {
       console.log(req.body)

@@ -26,16 +26,23 @@ function hashString(str){
  * @param {object} payload - The payload to be included in the token.
  * returns string - The generated JWT token.
  */
-function tokenGenerator(payload){ 
-    const token = jwt.sign(
-    payload,
+
+function tokenGenerator(user) {
+  const payload = {
+    _id: user._id,
+    username: user.username,
+  };
+
+  const token = jwt.sign(
+    payload, 
 
     //Token_SECRET
-    process.env.SECRET_KEY,
+    process.env.SECRET_KEY, 
 
     //EXPIRATION TIME
-    { expiresIn: process.env.JWT_EXPIRES_IN })
-    return token
+    { expiresIn: process.env.JWT_EXPIRES_IN, }
+    );
+  return token;
 }
 
 

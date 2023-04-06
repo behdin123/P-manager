@@ -39,16 +39,16 @@ router.post("/create",fileupload(), verifyToken, addStrToArr("tags"), uploadFile
 router.get("/list", verifyToken, ProjectController.getAllProject)
 
 // Get a specific project by ID
-router.get("/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, ProjectController.getProjectById)
+router.get("/:id", verifyToken, mongoIDValidator("id"), expressValidatorMapper, ProjectController.getProjectById)
 
 // Remove a project by ID
-router.delete("/remove/:id", verifyToken, mongoIDValidator(), expressValidatorMapper, ProjectController.removeProject)
+router.delete("/remove/:id", verifyToken, mongoIDValidator("id"), expressValidatorMapper, ProjectController.removeProject)
 
 // Update a project by ID
-router.put("/edit/:id", verifyToken, mongoIDValidator(), expressValidatorMapper,ProjectController.updateProject)
+router.put("/edit/:id", verifyToken, mongoIDValidator("id"), expressValidatorMapper,ProjectController.updateProject)
 
 // Update a project's image by ID
-router.patch("/edit-projectImage/:id", fileupload(), verifyToken, uploadFile, mongoIDValidator(), expressValidatorMapper,ProjectController.updateProjectImage)
+router.patch("/edit-projectImage/:id", fileupload(), verifyToken, uploadFile, mongoIDValidator("id"), expressValidatorMapper,ProjectController.updateProjectImage)
 
 // Export the router as a module
 module.exports = {

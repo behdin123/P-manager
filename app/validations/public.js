@@ -8,7 +8,9 @@ const { param } = require("express-validator");
 function mongoIDValidator(paramName) {
   return [
     // Validator for the MongoDB ObjectID
-    param(paramName).isMongoId().withMessage("The submitted ID is not valid"),
+    param(paramName)
+    .isMongoId()
+    .withMessage("The submitted ID is not valid"),
   ];
 }
 module.exports = {

@@ -18,11 +18,16 @@ class TeamController {
 
   async createTeam(req, res, next) {
     try {
+      // Log the req.user object
+      console.log("req.user:", req.user);
+
       // Destructure relevant data from request body
       const { name, username, description } = req.body;
 
       // Get ID of the user who is creating the team
       const owner = req.user._id;
+
+      console.log("Owner ID:", owner); // Log the owner's ID
 
       // Create a new team in the database using the data provided
       const team = await TeamModel.create({

@@ -30,9 +30,10 @@ module.exports = class Application {
 
         // Handle CORS issue + connect to FrontEnd
         this.#app.use(function(req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE"); // If using .fetch and not axios
+            res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+            res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
             res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
+            res.header("Access-Control-Allow-Credentials", "true");
             next();
         });
         

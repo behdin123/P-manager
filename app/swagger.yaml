@@ -210,7 +210,7 @@ paths:
                 tags:
                   type: string
       responses:
-        200:
+        201:
           description: The project has been successfully created
         400:
           description: Bad request
@@ -283,8 +283,6 @@ paths:
                 title:
                   type: string
                 description:
-                  type: string
-                image:
                   type: string
                 tags:
                   type: array
@@ -485,14 +483,17 @@ paths:
               required:
                 - name
                 - description
-                - username
+                - users
               properties:
                 name:
                   type: string
                 description:
                   type: string
-                username:
-                  type: string
+                users:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of user ID's
       responses:
         201:
           description: The team was successfully created
@@ -608,17 +609,17 @@ paths:
               properties:
                 name:
                   type: string
-                  description: The name of the team
                 description:
                   type: string
-                  description: A brief description of the team
-                username:
-                  type: string
-                  description: The unique username of the team
+                users:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of user ID's
               example:
                 name: New Team Name
                 description: This is a new description for the team
-                username: new_team_username
+                users: usernames of users as string
       responses:
         200:
           description: The team was successfully updated

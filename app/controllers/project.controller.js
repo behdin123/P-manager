@@ -51,13 +51,21 @@ class ProjectController {
     console.log('createProject called'); 
     try {
       console.log(req.body)
-      const {title, description, image, tags } = req.body;
+      const {title, description, image, tags, private: isPrivate } = req.body;
       console.log(tags);
 
       const owner = req.user._id
 
+      if (!req.user) {
+        throw {status: 400, message: "User is not authenticated"};
+      }
+
       // create new project
-      const result = await ProjectModel.create({title, description, owner, image, tags,});
+      const result = await ProjectModel.create({title, description, owner, image, tags, private: isPrivate,});
+
+      if (!title || !description || !image || !tags) {
+        throw {status: 400, message: "Missing required project data"};
+      }
 
       // check if the project was created successfully
       if (!result)throw {
@@ -75,7 +83,7 @@ class ProjectController {
         message : 'The project was successfully created'
       })
     } 
-    catch (error) {
+    catch (error) { console.error(error);
       // if there is any error, it goes to the error handling middleware
       next(error);
     }
@@ -112,13 +120,31 @@ class ProjectController {
 
 
   /**
+   * Returns the columns for one project by the project ID 
+   * method - getColumnsByProjectId
+   */
+
+  async getColumnsByProjectId(req, res) {
+
+    try {
+      const projectId = req.params.projectId;
+      const columns = await ColumnModel.find({ project: projectId }).sort({ order: 1 });
+      res.status(200).json(columns);
+      
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+
+  /**
    * Finds a project by ID for the current user
    * method - findProject
    * @param {string} projectID - The ID of the project to find
    * @param {string} owner - The ID of the user who owns the project
    * returns Object - The project found
    * throws Object - An error if the project is not found
-  */
+   */
 
   async findProject(projectID, owner) {
 
@@ -227,7 +253,8 @@ class ProjectController {
 
       // Remove unwanted fields from data
       Object.entries(data).forEach(([key, value]) => {
-        if (!["title", "description", "tags"].includes(key)) delete data[key];
+        // Add 'private' to the list of allowed keys
+        if (!["title", "description", "tags", "private"].includes(key)) delete data[key];
         if (["", " ", 0, null, undefined, NaN].includes(value))
           delete data[key];
         if (key == "tags" && data["tags"].constructor === Array) {
@@ -235,6 +262,10 @@ class ProjectController {
             if (!["", " ", 0, null, undefined, NaN].includes(val)) return val;
           });
           if (data["tags"].length == 0) delete data["tags"];
+        }
+        // Convert the private value to a boolean
+        if (key == "private" && typeof value === "string") {
+          data["private"] = value.toLowerCase() === "true";
         }
       });
 

@@ -81,7 +81,7 @@ class AuthController{
                 httpOnly: true,
                 sameSite: 'none',
                 secure: true,
-                maxAge: 24 * 60 * 60 * 1000 // 24 hours
+                maxAge: 24 * 60 * 60 * 1000, // 24 hours
             });
 
             // Send a response with the token to the user

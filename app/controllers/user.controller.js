@@ -16,7 +16,7 @@ class UserController {
       UserModel.findById(req.user._id)
       .then(user => {
         user.profile_image = createLinkForFiles(user.profile_image, req);
-
+        console.log("Received cookie:", req.cookies.jwt);
       // Include all the fields in the response
       const responseUser = {
         first_name: user.first_name,

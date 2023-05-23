@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://localhost:3000/
     description: Localhost development server
-  - url: https://pwa-rest-api-mevn.onrender.com/
+  - url: https://p-manager-backend.onrender.com
     description: Live server on Render
 
 components:

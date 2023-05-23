@@ -82,7 +82,6 @@ class AuthController{
                 sameSite: 'none',
                 secure: true,
                 maxAge: 24 * 60 * 60 * 1000, // 24 hours
-                domain: piratelifesmatter.org,
             });
 
             // Send a response with the token to the user

@@ -78,7 +78,7 @@ class AuthController{
 
             // Set the JWT token as a cookie
             res.cookie('jwt', token, {
-                httpOnly: true,
+                HttpOnly: true,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 24 * 60 * 60 * 1000, // 24 hours

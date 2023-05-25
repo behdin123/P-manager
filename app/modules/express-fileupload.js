@@ -15,7 +15,7 @@ const uploadFile = async (req, res, next) => {
         if(req.file || Object.keys(req.files).length == 0) throw {status : 400, message : "Please submit the project's cover image"}
 
         let image = req.files.image
-        let type = path.extname(image.name);
+        let type = path.extname(image.name).toLowerCase();
 
         // Check if the file format is valid
         if(![".png", ".jpg", ".jpeg", ".webp", ".gif"].includes(type)) throw {status : 400, message : "The submitted image format is not valid"}

@@ -39,6 +39,9 @@ function tokenGenerator(user) {
     //Token_SECRET
     process.env.SECRET_KEY, 
 
+    //Token_Domain
+    process.env.API_DOMAIN, 
+
     //EXPIRATION TIME
     { expiresIn: process.env.JWT_EXPIRES_IN, }
     );
